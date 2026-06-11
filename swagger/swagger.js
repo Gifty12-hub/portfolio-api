@@ -5,8 +5,8 @@ const doc = {
     title: 'Portfolio Builder API',
     description: 'API documentation for the Portfolio Builder project'
   },
-  host: 'localhost:5000',
-  schemes: ['http']
+  host: 'portfolio-api-slrv.onrender.com',
+  schemes: ['https']
 };
 
 const outputFile = './swagger/swagger-output.json';
