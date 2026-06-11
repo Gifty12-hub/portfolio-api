@@ -5,10 +5,10 @@
     "description": "API documentation for the Portfolio Builder project",
     "version": "1.0.0"
   },
-  "host": "localhost:5000",
+  "host": "portfolio-api-slrv.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/users/": {
