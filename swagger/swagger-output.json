@@ -7,191 +7,197 @@
   },
   "host": "portfolio-api-slrv.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "tags": [
+    { "name": "Users", "description": "User endpoints" },
+    { "name": "Skills", "description": "Skills endpoints" }
   ],
   "paths": {
     "/users/": {
       "get": {
-        "description": "",
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "description": "Returns a list of all users",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
+        "tags": ["Users"],
+        "summary": "Create a new user",
+        "description": "Creates a new user and returns the created document",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["name", "email", "title"],
+              "properties": {
+                "name":     { "type": "string", "example": "Gifty Mensah" },
+                "email":    { "type": "string", "example": "gifty@example.com" },
+                "title":    { "type": "string", "example": "Full-Stack Developer" },
+                "bio":      { "type": "string", "example": "Passionate web developer based in Ghana" },
+                "location": { "type": "string", "example": "Accra, Ghana" },
+                "github":   { "type": "string", "example": "https://github.com/gifty" },
+                "linkedin": { "type": "string", "example": "https://linkedin.com/in/gifty" }
+              }
+            }
           }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" }
         }
       }
     },
     "/users/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Users"],
+        "summary": "Get a user by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
         }
       },
       "put": {
-        "description": "",
+        "tags": ["Users"],
+        "summary": "Update a user by ID",
         "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" },
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name":     { "type": "string", "example": "Gifty Mensah" },
+                "email":    { "type": "string", "example": "gifty@example.com" },
+                "title":    { "type": "string", "example": "Full-Stack Developer" },
+                "bio":      { "type": "string", "example": "Passionate web developer based in Ghana" },
+                "location": { "type": "string", "example": "Accra, Ghana" },
+                "github":   { "type": "string", "example": "https://github.com/gifty" },
+                "linkedin": { "type": "string", "example": "https://linkedin.com/in/gifty" }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Users"],
+        "summary": "Delete a user by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/skills/": {
       "get": {
-        "description": "",
+        "tags": ["Skills"],
+        "summary": "Get all skills",
+        "description": "Returns a list of all skills",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
+        "tags": ["Skills"],
+        "summary": "Create a new skill",
+        "description": "Creates a new skill and returns the created document",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["name", "category", "proficiency", "userId"],
+              "properties": {
+                "name":              { "type": "string", "example": "JavaScript" },
+                "category":          { "type": "string", "example": "Programming Language" },
+                "proficiency":       { "type": "string", "example": "advanced", "enum": ["beginner", "intermediate", "advanced", "expert"] },
+                "yearsOfExperience": { "type": "number", "example": 3 },
+                "userId":            { "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+              }
+            }
           }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" }
         }
       }
     },
     "/skills/{id}": {
       "get": {
-        "description": "",
+        "tags": ["Skills"],
+        "summary": "Get a skill by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
         }
       },
       "put": {
-        "description": "",
+        "tags": ["Skills"],
+        "summary": "Update a skill by ID",
         "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" },
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name":              { "type": "string", "example": "JavaScript" },
+                "category":          { "type": "string", "example": "Programming Language" },
+                "proficiency":       { "type": "string", "example": "advanced", "enum": ["beginner", "intermediate", "advanced", "expert"] },
+                "yearsOfExperience": { "type": "number", "example": 3 },
+                "userId":            { "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
         }
       },
       "delete": {
-        "description": "",
+        "tags": ["Skills"],
+        "summary": "Delete a skill by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     }
