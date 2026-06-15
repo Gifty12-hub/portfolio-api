@@ -12,7 +12,9 @@
   "produces": ["application/json"],
   "tags": [
     { "name": "Users", "description": "User endpoints" },
-    { "name": "Skills", "description": "Skills endpoints" }
+    { "name": "Skills", "description": "Skills endpoints" },
+    { "name": "Projects", "description": "Project endpoints" },
+    { "name": "Education", "description": "Education endpoints" }
   ],
   "paths": {
     "/users/": {
@@ -114,7 +116,6 @@
       "get": {
         "tags": ["Skills"],
         "summary": "Get all skills",
-        "description": "Returns a list of all skills",
         "responses": {
           "200": { "description": "OK" },
           "500": { "description": "Internal Server Error" }
@@ -123,7 +124,6 @@
       "post": {
         "tags": ["Skills"],
         "summary": "Create a new skill",
-        "description": "Creates a new skill and returns the created document",
         "parameters": [
           {
             "name": "body",
@@ -198,6 +198,229 @@
           "200": { "description": "OK" },
           "404": { "description": "Not Found" },
           "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/projects/": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get all projects",
+        "responses": {
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
+        }
+      },
+      "post": {
+        "tags": ["Projects"],
+        "summary": "Create a new project (requires login)",
+        "description": "Protected route - login at /auth/github first",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["title", "description", "techStack", "userId"],
+              "properties": {
+                "title":       { "type": "string", "example": "Portfolio Builder API" },
+                "description": { "type": "string", "example": "A REST API for managing developer portfolios" },
+                "techStack":   { "type": "array", "items": { "type": "string" }, "example": ["Node.js", "Express", "MongoDB"] },
+                "liveUrl":     { "type": "string", "example": "https://portfolio-api-slrv.onrender.com" },
+                "githubUrl":   { "type": "string", "example": "https://github.com/Gifty12-hub/portfolio-api" },
+                "status":      { "type": "string", "example": "completed", "enum": ["in-progress", "completed", "archived"] },
+                "userId":      { "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - login required" }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "Get a project by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "tags": ["Projects"],
+        "summary": "Update a project by ID (requires login)",
+        "description": "Protected route - login at /auth/github first",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title":       { "type": "string", "example": "Portfolio Builder API" },
+                "description": { "type": "string", "example": "Updated description" },
+                "techStack":   { "type": "array", "items": { "type": "string" }, "example": ["Node.js", "Express", "MongoDB"] },
+                "liveUrl":     { "type": "string", "example": "https://portfolio-api-slrv.onrender.com" },
+                "githubUrl":   { "type": "string", "example": "https://github.com/Gifty12-hub/portfolio-api" },
+                "status":      { "type": "string", "example": "completed", "enum": ["in-progress", "completed", "archived"] }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - login required" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "tags": ["Projects"],
+        "summary": "Delete a project by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/education/": {
+      "get": {
+        "tags": ["Education"],
+        "summary": "Get all education records",
+        "responses": {
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
+        }
+      },
+      "post": {
+        "tags": ["Education"],
+        "summary": "Create a new education record (requires login)",
+        "description": "Protected route - login at /auth/github first",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["institution", "degree", "fieldOfStudy", "startYear", "userId"],
+              "properties": {
+                "institution":  { "type": "string", "example": "Brigham Young University - Idaho" },
+                "degree":       { "type": "string", "example": "Bachelor of Science" },
+                "fieldOfStudy": { "type": "string", "example": "Web Development" },
+                "startYear":    { "type": "number", "example": 2022 },
+                "endYear":      { "type": "number", "example": 2026 },
+                "current":      { "type": "boolean", "example": true },
+                "description":  { "type": "string", "example": "Studying web development with focus on full-stack technologies" },
+                "userId":       { "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - login required" }
+        }
+      }
+    },
+    "/education/{id}": {
+      "get": {
+        "tags": ["Education"],
+        "summary": "Get an education record by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "tags": ["Education"],
+        "summary": "Update an education record by ID (requires login)",
+        "description": "Protected route - login at /auth/github first",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "institution":  { "type": "string", "example": "Brigham Young University - Idaho" },
+                "degree":       { "type": "string", "example": "Bachelor of Science" },
+                "fieldOfStudy": { "type": "string", "example": "Web Development" },
+                "startYear":    { "type": "number", "example": 2022 },
+                "endYear":      { "type": "number", "example": 2026 },
+                "current":      { "type": "boolean", "example": false },
+                "description":  { "type": "string", "example": "Updated description" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - login required" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "tags": ["Education"],
+        "summary": "Delete an education record by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string", "example": "64f1a2b3c4d5e6f7a8b9c0d1" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/auth/github": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Login with GitHub OAuth",
+        "description": "Redirects to GitHub for authentication. Login here before using protected POST/PUT routes on Projects and Education.",
+        "responses": {
+          "302": { "description": "Redirect to GitHub" }
+        }
+      }
+    },
+    "/auth/profile": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "View logged-in user profile",
+        "responses": {
+          "200": { "description": "OK - returns logged in user info" },
+          "401": { "description": "Not logged in" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "responses": {
+          "200": { "description": "Logged out successfully" }
         }
       }
     }
